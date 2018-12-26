@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import IceContainer from '@icedesign/container';
 import { Search, Grid } from '@icedesign/base';
 import './FilterWithSearch.scss';
+import cookie from 'react-cookies';
 
 const { Row, Col } = Grid;
 
@@ -15,17 +16,15 @@ export default class FilterWithSearch extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      key: '',
+      key: cookie.load('id') == undefined?('') : (cookie.load('id')),
     };
     this.handleSearch = this.handleSearch.bind(this);
   }
 
 
   handleSearch = (e) => {
-    console.log(e);
-    this.setState({
-      key: e.key,
-    });
+    cookie.save('id', e.key);
+    window.location.reload();
   };
 
   render() {
@@ -41,7 +40,7 @@ export default class FilterWithSearch extends Component {
                 className="filter-item selected"
                 style={styles.filterItem}
               >
-                耳号/链码：{this.state.key}
+                链码：{this.state.key}
               </span>
             </Col>
             <Col xxs={24} s={16} style={styles.searchWrapper}>
@@ -49,7 +48,7 @@ export default class FilterWithSearch extends Component {
                 inputWidth={250}
                 searchText=""
                 size="large"
-                placeholder="请输入耳号或链码"
+                placeholder="请输入链码"
                 onSearch={this.handleSearch}
                 style={{ display: 'inline-block' }}
               />

@@ -6,12 +6,12 @@ export default class Logo extends Component {
     return (
       <div style={styles.container}>
         <img
-          src={require('./images/logo.png')}
+          src={require('./images/pig.png')}
           style={styles.logoImg}
           alt="logo"
         />
         <Link to="/" style={styles.logoText}>
-          数据监控系统
+          畜牧业溯源平台
         </Link>
       </div>
     );
