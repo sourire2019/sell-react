@@ -6,52 +6,52 @@ const showDetail = (id) => {
 };
 
 // 健康信息
-// const showHealthMin = (id) => {
-//   return get(`http://172.16.1.170:8080/getPigHealthInfo/${id}`).then((resp) => {
-//     return resp;
-//   });
-// };
+const showHealthMin = (id) => {
+  return get(`http://172.16.1.170:8080/getPigHealthInfo/${id}`).then((resp) => {
+    return resp;
+  });
+};
 // 环境信息
-// const showEnvironmentalMin = (id) => {
-//   return get(`http://172.16.1.170:8080/getPigHouseEnv/${id}`)
-//     .then((resp) => {
-//       return resp;
-//     });
-// };
+const showEnvironmentalMin = (id) => {
+  return get(`http://172.16.1.170:8080/getPigHouseEnv/${id}`)
+    .then((resp) => {
+      return resp;
+    });
+};
 // mock
 // 猪场环境信息
-const showEnvironmentalMin = (id) => {
-  const result = [
-    {
-      temperature: '25.4',
-      humidity: '28.3',
-      datetime: '2018-12-21 11:09:06',
-      co2: '400',
-    },
-    {
-      temperature: '26.2',
-      humidity: '27.8',
-      datetime: '2018-12-21 11:09:37',
-      co2: '400',
-    },
-  ];
-  return result;
-};
+// const showEnvironmentalMin = (id) => {
+//   const result = [
+//     {
+//       temperature: '25.4',
+//       humidity: '28.3',
+//       datetime: '2018-12-21 11:09:06',
+//       co2: '400',
+//     },
+//     {
+//       temperature: '26.2',
+//       humidity: '27.8',
+//       datetime: '2018-12-21 11:09:37',
+//       co2: '400',
+//     },
+//   ];
+//   return result;
+// };
 
 // 健康信息
-const showHealthMin = (id) => {
-  const result = [
-    {
-      temperature: '27.6',
-      datetime: '2018-12-19 19:34:00',
-    },
-    {
-      temperature: '27.7',
-      datetime: '2018-12-19 19:34:31',
-    },
-  ];
-  return result;
-};
+// const showHealthMin = (id) => {
+//   const result = [
+//     {
+//       temperature: '27.6',
+//       datetime: '2018-12-19 19:34:00',
+//     },
+//     {
+//       temperature: '27.7',
+//       datetime: '2018-12-19 19:34:31',
+//     },
+//   ];
+//   return result;
+// };
 
 // 猪舍详情
 const pigsty = (id) => {

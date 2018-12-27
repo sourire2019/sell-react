@@ -70,10 +70,18 @@ export default class Page4 extends Component {
         athis.setState({
           environmentaltime: showEnvironmentalresult[(showEnvironmentalresult.length - 1)].datetime,
         });
+      } else {
+        athis.setState({
+          environmentaltime: `${new Date().toLocaleDateString().replace(/\//g, '-')} ${new Date().toTimeString().substr(0, 8)}`,
+        });
       }
       if (showHealthresult.length > 0) {
         athis.setState({
           healthtime: showHealthresult[(showHealthresult.length - 1)].datetime,
+        });
+      } else {
+        athis.setState({
+          healthtime: `${new Date().toLocaleDateString().replace(/\//g, '-')} ${new Date().toTimeString().substr(0, 8)}`,
         });
       }
       setInterval(() => this.syncData(this.state.pigstyId), 10000);
@@ -94,7 +102,7 @@ export default class Page4 extends Component {
   }
   // 将时间戳转换为时间
   getLocalTime=(nS) => {
-    return (`${new Date(parseInt(nS)).toLocaleDateString()} ${new Date(parseInt(nS)).toTimeString().substr(0, 8)}`);
+    return (`${new Date(parseInt(nS)).toLocaleDateString().replace(/\//g, '-')} ${new Date(parseInt(nS)).toTimeString().substr(0, 8)}`);
   }
 
   health = () => {
