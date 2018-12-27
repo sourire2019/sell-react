@@ -12,7 +12,7 @@ import Environmental from './components/showmsg/environmental';
 import Operation from '../../api/api';
 import src from './img/pig.png';
 
-const { pigsty, showDetail, pigfarm, pigsensor } = Operation;
+const { pigsty, showDetail, pigfarm, pigsensor, pigstysensor, showEnvironmentalMin, showHealthMin } = Operation;
 const { Row, Col } = Grid;
 
 export default class Page4 extends Component {
@@ -28,11 +28,17 @@ export default class Page4 extends Component {
       pigdata: {},
       pigfarmdata: {},
       pigsensordata: {},
+      pigstysensordata: {},
       pigstyId: '',
+      showEnvironmentaldata: [],
+      showHealthdata: [],
       pigstyheight: '100px',
       pigheight: '100px',
       healthheight: '100px',
       environmentalheight: '100px',
+      healthtime: '',
+      environmentaltime: '',
+      pigstytime: '',
     };
     this.health = this.health.bind(this);
     this.environmental = this.environmental.bind(this);
@@ -42,18 +48,49 @@ export default class Page4 extends Component {
   componentWillMount = async () => {
     const athis = this;
     if (cookie.load('id') != undefined) {
-      const result = await pigsty(this.state.id);
-      const pigresult = await showDetail(this.state.id);
+      const pigresult = await showDetail(athis.state.id);
       const pigfarmresult = await pigfarm();
-      const pigsensorreult = await pigsensor(this.state.id);
+      const pigsensorreult = await pigsensor(athis.state.id);
+      const pigstysensorresult = await pigstysensor(pigresult.pigstyId);
+      const showEnvironmentalresult = await showEnvironmentalMin(pigresult.pigstyId);
+      const result = await pigsty(pigresult.pigstyId);
+      const showHealthresult = await showHealthMin(athis.state.id);
       athis.setState({
         data: result,
         pigstyId: pigresult.pigstyId,
         pigdata: pigresult,
         pigfarmdata: pigfarmresult,
         pigsensordata: pigsensorreult,
+        pigstysensordata: pigstysensorresult,
+        showEnvironmentaldata: showEnvironmentalresult,
+        showHealthdata: showHealthresult,
+        pigstytime: result.time,
       });
+      if (showEnvironmentalresult.length > 0) {
+        athis.setState({
+          environmentaltime: showEnvironmentalresult[(showEnvironmentalresult.length - 1)].datetime,
+        });
+      }
+      if (showHealthresult.length > 0) {
+        athis.setState({
+          healthtime: showHealthresult[(showHealthresult.length - 1)].datetime,
+        });
+      }
+      setInterval(() => this.syncData(this.state.pigstyId), 10000);
+      setInterval(() => this.syncHealthData(this.state.id), 10000);
     }
+  }
+  syncData = async (id) => {
+    const result = await showEnvironmentalMin(id);
+    this.setState({
+      showEnvironmentaldata: result,
+    });
+  }
+  syncHealthData = async (id) => {
+    const showHealth = await showHealthMin(id);
+    this.setState({
+      showHealthdata: showHealth,
+    });
   }
   // 将时间戳转换为时间
   getLocalTime=(nS) => {
@@ -253,7 +290,7 @@ export default class Page4 extends Component {
             <Timeline style={{ margin: '0 auto', float: 'right' }}>
               <TimelineEvent
                 key="1"
-                title="创建猪舍"
+                title={`${this.state.pigtime} 创建猪舍`}
                 icon={<i className="fa fa-briefcase" />}
                 iconColor="#0D3799"
                 container="card"
@@ -270,7 +307,7 @@ export default class Page4 extends Component {
               </TimelineEvent>
               <TimelineEvent
                 key="2"
-                title="初始化猪舍传感器"
+                title={`${this.state.pigstysensordata.time} 初始化猪舍传感器`}
                 icon={<i className="fa fa-briefcase" />}
                 iconColor="#0D3799"
                 container="card"
@@ -285,7 +322,26 @@ export default class Page4 extends Component {
                            backgroundColor: 'transparent',
                          }}
               >
-                <span>时间: {this.state.pigtime}</span>
+                <Row style={styles.formItem}>
+                  <Col xxs="6" s="2" l="3" style={styles.formLabel}>
+                    编号：
+                  </Col>
+                  <Col s="6" l="5">
+                    {this.state.pigstysensordata.id}
+                  </Col>
+                  <Col xxs="6" s="2" l="3" style={styles.formLabel}>
+                    类型：
+                  </Col>
+                  <Col s="6" l="5">
+                    {this.state.pigstysensordata.type}
+                  </Col>
+                  <Col xxs="6" s="2" l="3" style={styles.formLabel}>
+                    时间：
+                  </Col>
+                  <Col s="6" l="5">
+                    {this.state.pigstysensordata.time}
+                  </Col>
+                </Row>
               </TimelineEvent>
               <TimelineEvent
                 key="3"
@@ -309,7 +365,7 @@ export default class Page4 extends Component {
               </TimelineEvent>
               <TimelineEvent
                 key="4"
-                title={`${this.state.pigsensordata.time} 初始化猪舍传感器`}
+                title={`${this.state.pigsensordata.time} 初始化公猪传感器`}
                 icon={<i className="fa fa-briefcase" />}
                 iconColor="#0D3799"
                 container="card"
@@ -347,7 +403,7 @@ export default class Page4 extends Component {
               </TimelineEvent>
               <TimelineEvent
                 key="5"
-                title="健康信息"
+                title={`${this.state.healthtime} 健康信息`}
                 icon={<i className="fa fa-briefcase" />}
                 iconColor="#0D3799"
                 container="card"
@@ -363,11 +419,11 @@ export default class Page4 extends Component {
                          }}
               >
                 <i className="fa fa-chevron-down" onClick={this.health} style={{ position: 'absolute', right: '10px' }} >最近5分钟健康信息</i>
-                <Health id={this.state.id} />
+                <Health data={this.state.showHealthdata} />
               </TimelineEvent>
               <TimelineEvent
                 key="6"
-                title="环境信息"
+                title={`${this.state.environmentaltime} 环境信息`}
                 icon={<i className="fa fa-briefcase" />}
                 iconColor="#0D3799"
                 container="card"
@@ -383,7 +439,7 @@ export default class Page4 extends Component {
                 }}
               >
                 <i className="fa fa-chevron-down" onClick={this.environmental} style={{ position: 'absolute', right: '10px' }} >最近5分钟环境信息</i>
-                <Environmental pigstyId={this.state.pigstyId} />
+                <Environmental data={this.state.showEnvironmentaldata} />
               </TimelineEvent>
             </Timeline>
           </Col>

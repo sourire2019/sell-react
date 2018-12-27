@@ -19,23 +19,22 @@ export default class CreateActivityForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pigfarm: '',
+      pigfarm: '北京世纪诚链养殖场',
       pigstyid: '',
       column: '',
       ringNumber: '',
       person: '',
-      status: '正常',
+      time: '',
     };
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      pigfarm: nextProps.value.pigfarm,
-      pigstyid: nextProps.value.pigstyid,
+      pigstyid: nextProps.value.pigstyId,
       column: nextProps.value.column,
       ringNumber: nextProps.value.ringNumber,
       person: nextProps.value.person,
-      status: '正常',
+      time: nextProps.value.time,
     });
   }
   render() {
@@ -78,10 +77,10 @@ export default class CreateActivityForm extends Component {
                   {this.state.person}
                 </Col>
                 <Col xxs="6" s="2" l="3" style={styles.formLabel}>
-                  目前状态：
+                  时间：
                 </Col>
                 <Col s="6" l="5">
-                  {this.state.status}
+                  {this.state.time}
                 </Col>
               </Row>
             </div>

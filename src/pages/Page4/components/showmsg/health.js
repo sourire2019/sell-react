@@ -1,27 +1,17 @@
 import React from 'react';
-import Operations from '../../../../api/api';
 
 const ReactHighcharts = require('react-highcharts');
 
-const { showHealthMin } = Operations;
 class LineChart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
+      data: props.data,
     };
   }
-  componentWillMount = async () => {
-    const result = await showHealthMin(this.props.id);
+  componentWillReceiveProps(nextProps) {
     this.setState({
-      data: result,
-    });
-    setInterval(() => this.syncData(this.props.id), 10000);
-  }
-  syncData = async (id) => {
-    const result = await showHealthMin(id);
-    this.setState({
-      data: result,
+      data: nextProps.data,
     });
   }
 

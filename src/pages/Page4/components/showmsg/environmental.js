@@ -1,39 +1,20 @@
 import React from 'react';
-import Operation from '../../../../api/api';
-// import './main.css';
-
 const ReactHighcharts = require('react-highcharts');
 
-const { showEnvironmentalMin } = Operation;
 
 class Environmental extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
-      pigstyId: props.pigstyId,
+      data: props.data
     };
-  }
-  componentWillMount = async () => {
-    setInterval(() => this.syncData(this.state.pigstyId), 10000);
   }
   componentWillReceiveProps(nextProps) {
     this.setState({
-      pigstyId: nextProps.pigstyId,
+      data: nextProps.data,
     });
-    const athis = this;
-    if (nextProps.pigstyId != '') {
-      athis.syncData(nextProps.pigstyId);
-    }
   }
-  syncData = async (id) => {
-    if (this.state.pigstyId != '') {
-      const result = await showEnvironmentalMin(id);
-      this.setState({
-        data: result,
-      });
-    }
-  }
+
   render() {
     const datetime = [],
       humidity = [],
