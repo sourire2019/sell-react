@@ -11,20 +11,28 @@ class Environmental extends React.Component {
     super(props);
     this.state = {
       data: [],
+      pigstyId: props.pigstyId,
     };
   }
   componentWillMount = async () => {
-    const result = await showEnvironmentalMin(this.props.pigstyId);
+    setInterval(() => this.syncData(this.state.pigstyId), 10000);
+  }
+  componentWillReceiveProps(nextProps) {
     this.setState({
-      data: result,
+      pigstyId: nextProps.pigstyId,
     });
-    setInterval(() => this.syncData(this.props.pigstyId), 10000);
+    const athis = this;
+    if (nextProps.pigstyId != '') {
+      athis.syncData(nextProps.pigstyId);
+    }
   }
   syncData = async (id) => {
-    const result = await showEnvironmentalMin(id);
-    this.setState({
-      data: result,
-    });
+    if (this.state.pigstyId != '') {
+      const result = await showEnvironmentalMin(id);
+      this.setState({
+        data: result,
+      });
+    }
   }
   render() {
     const datetime = [],
@@ -90,15 +98,7 @@ class Environmental extends React.Component {
     };
     return (
       <div>
-        <div style={{ overflow: 'hidden', marginBottom: '20px' }}>
-          <div style={{ float: 'left', marginLeft: '10px' }}>
-            <strong>猪舍编号:</strong><span>{this.props.pigstyId}</span>
-          </div>
-          <div style={{ float: 'right', marginRight: '10px' }}>
-            最近5分钟
-          </div>
-
-        </div>
+        <div style={{ overflow: 'hidden', marginBottom: '20px' }} />
         <ReactHighcharts config={config} />
       </div>
     );

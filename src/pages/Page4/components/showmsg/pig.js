@@ -19,31 +19,31 @@ export default class CreateActivityForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      earId: 1234567890123,
-      breed: 456,
-      column: 1,
-      ringNumber: 2,
-      matingWeek: 4,
-      remarks: 6734,
+      earId: '',
+      breed: '',
+      column: '',
+      ringNumber: '',
+      matingWeek: '',
+      remarks: '',
       status: '正常',
-      pigstyId: 1000,
+      pigstyId: '',
       person: '张三',
+      erc721Id: '',
     };
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   this.setState({
-  //     earId: nextProps.value.earId,
-  //     breed: nextProps.value.breed,
-  //     column: nextProps.value.column,
-  //     ringNumber: nextProps.value.ringNumber,
-  //     matingWeek: nextProps.value.matingWeek,
-  //     remarks: nextProps.value.remarks,
-  //     operation: nextProps.value.operation,
-  //     status: nextProps.value.status,
-  //     pigstyId: nextProps.value.pigstyId,
-  //   });
-  // }
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      erc721Id : nextProps.value.erc721ID,
+      earId: nextProps.value.earId,
+      breed: nextProps.value.breed,
+      column: nextProps.value.column,
+      ringNumber: nextProps.value.ringNumber,
+      matingWeek: nextProps.value.matingWeek,
+      remarks: nextProps.value.remarks,
+      pigstyId: nextProps.value.pigstyId,
+    });
+  }
   render() {
     return (
       <div className="create-activity-form">
@@ -51,6 +51,12 @@ export default class CreateActivityForm extends Component {
           <IceFormBinderWrapper >
             <div>
               <Row style={styles.formItem}>
+                <Col xxs="6" s="2" l="3" style={styles.formLabel}>
+                  链码：
+                </Col>
+                <Col s="6" l="5">
+                  {this.state.erc721Id}
+                </Col>
                 <Col xxs="6" s="2" l="3" style={styles.formLabel}>
                   耳号：
                 </Col>
@@ -62,12 +68,6 @@ export default class CreateActivityForm extends Component {
                 </Col>
                 <Col s="6" l="5">
                   {this.state.breed}
-                </Col>
-                <Col xxs="6" s="2" l="3" style={styles.formLabel}>
-                  栋栏：
-                </Col>
-                <Col s="6" l="5">
-                  {this.state.column}
                 </Col>
               </Row>
               <Row style={styles.formItem}>
@@ -91,43 +91,33 @@ export default class CreateActivityForm extends Component {
                 </Col>
               </Row>
               <Row style={styles.formItem}>
-
-                <Col xxs="6" s="2" l="2" style={styles.formLabel}>
+                <Col xxs="6" s="2" l="3" style={styles.formLabel}>
                   目前状态：
                 </Col>
-                <Col s="12" l="10">
+                <Col s="6" l="5">
                   {this.state.status}
+                </Col>
+                <Col xxs="6" s="2" l="3" style={styles.formLabel}>
+                  猪舍：
+                </Col>
+                <Col s="6" l="5">
+                  {this.state.pigstyId}
+                </Col>
+                <Col xxs="6" s="2" l="3" style={styles.formLabel}>
+                  栋栏：
+                </Col>
+                <Col s="6" l="5">
+                  {this.state.column}
                 </Col>
               </Row>
               <Row style={styles.formItem}>
-                {/* <Col xxs="6" s="2" l="2" style={styles.formLabel}> */}
-                {/* 操作： */}
-                {/* </Col> */}
-                {/* <Col s="12" l="10"> */}
-                {/* {this.state.operation} */}
-                {/* </Col> */}
-                <Col xxs="6" s="2" l="2" style={styles.formLabel}>
-                  猪舍：
-                </Col>
-                <Col s="12" l="10">
-                  {this.state.pigstyId}
-                </Col>
-
-                <Col xxs="6" s="2" l="2" style={styles.formLabel}>
+                <Col xxs="6" s="2" l="3" style={styles.formLabel}>
                   备注：
                 </Col>
-                <Col s="12" l="10">
-                  {this.state.remarks}
+                <Col s="6" l="5">
+                  {this.state.remarks == ''? ('无') : (this.state.remarks)}
                 </Col>
               </Row>
-              {/* <Row style={styles.formItem}> */}
-              {/* <Col xxs="6" s="2" l="2" style={styles.formLabel}> */}
-              {/* 猪舍： */}
-              {/* </Col> */}
-              {/* <Col s="12" l="10"> */}
-              {/* {this.state.pigstyId} */}
-              {/* </Col> */}
-              {/* </Row> */}
             </div>
           </IceFormBinderWrapper>
         </IceContainer>

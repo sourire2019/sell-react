@@ -12,7 +12,7 @@ import Environmental from './components/showmsg/environmental';
 import Operation from '../../api/api';
 import src from './img/pig.png';
 
-const { pigsty } = Operation;
+const { pigsty, showDetail, pigfarm, pigsensor } = Operation;
 const { Row, Col } = Grid;
 
 export default class Page4 extends Component {
@@ -21,51 +21,93 @@ export default class Page4 extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      show: '',
       id: cookie.load('id') == undefined ? ('') : (cookie.load('id')),
       pigstytime: '2018-12-26 12:48:34',
       pigtime: '2018-12-26 12:58:21',
-      time: '2017-12-1 12:12:12',
       data: undefined,
+      pigdata: {},
+      pigfarmdata: {},
+      pigsensordata: {},
       pigstyId: '',
       pigstyheight: '100px',
+      pigheight: '100px',
+      healthheight: '100px',
+      environmentalheight: '100px',
     };
     this.health = this.health.bind(this);
     this.environmental = this.environmental.bind(this);
-    this.pigsty = this.pigsty.bind(this);
     this.pigstyshow = this.pigstyshow.bind(this);
+    this.pigshow = this.pigshow.bind(this);
   }
   componentWillMount = async () => {
     const athis = this;
     if (cookie.load('id') != undefined) {
       const result = await pigsty(this.state.id);
+      const pigresult = await showDetail(this.state.id);
+      const pigfarmresult = await pigfarm();
+      const pigsensorreult = await pigsensor(this.state.id);
       athis.setState({
         data: result,
-        pigstyId: result.pigstyid,
+        pigstyId: pigresult.pigstyId,
+        pigdata: pigresult,
+        pigfarmdata: pigfarmresult,
+        pigsensordata: pigsensorreult,
       });
     }
   }
-  health = () => {
-    this.setState({
-      show: <Health id={this.state.id} />,
-    });
-  }
-  environmental = () => {
-    this.setState({
-      show: <Environmental pigstyId={this.state.pigstyId} />,
-    });
-  }
-  pigsty = () => {
-    this.setState({
-      show: <Pigsty value={this.state.data} />,
-    });
-  }
-  pigstyshow = () => {
-    this.setState({
-      pigstyheight: '',
-    });
+  // 将时间戳转换为时间
+  getLocalTime=(nS) => {
+    return (`${new Date(parseInt(nS)).toLocaleDateString()} ${new Date(parseInt(nS)).toTimeString().substr(0, 8)}`);
   }
 
+  health = () => {
+    const athis = this;
+    if (this.state.healthheight != '') {
+      athis.setState({
+        healthheight: '',
+      });
+    } else {
+      athis.setState({
+        healthheight: '100px',
+      });
+    }
+  }
+  environmental = () => {
+    const athis = this;
+    if (this.state.environmentalheight != '') {
+      athis.setState({
+        environmentalheight: '',
+      });
+    } else {
+      athis.setState({
+        environmentalheight: '100px',
+      });
+    }
+  }
+  pigstyshow = () => {
+    const athis = this;
+    if (this.state.pigstyheight != '') {
+      athis.setState({
+        pigstyheight: '',
+      });
+    } else {
+      athis.setState({
+        pigstyheight: '100px',
+      });
+    }
+  }
+  pigshow = () => {
+    const athis = this;
+    if (this.state.pigheight != '') {
+      athis.setState({
+        pigheight: '',
+      });
+    } else {
+      athis.setState({
+        pigheight: '100px',
+      });
+    }
+  }
   render() {
     if (cookie.load('id') == undefined) {
       return (
@@ -75,6 +117,7 @@ export default class Page4 extends Component {
         </div>
       );
     }
+    // noinspection JSAnnotator
     return (
       <div className="page4-page">
         <FilterWithSearch />
@@ -91,23 +134,23 @@ export default class Page4 extends Component {
               </div>
             </Col>
             <Row>
-              <Col xxs="7" s="7" l="7" style={{ marginRight: '5%' }}>
+              <Col xxs="8" s="8" l="8" style={{ marginRight: '3%' }}>
                 <div className="ibox float-e-margins">
                   <div className="ibox-title">
                     <h5>链码</h5>
                   </div>
                   <div className="ibox-content">
-                    <h4 className="no-margins">123</h4>
+                    <h4 className="no-margins">{this.state.pigdata.erc721ID}</h4>
                   </div>
                 </div>
               </Col>
-              <Col xxs="7" s="7" l="7" style={{ marginRight: '5%' }}>
+              <Col xxs="8" s="8" l="8" style={{ marginRight: '3%' }}>
                 <div className="ibox float-e-margins">
                   <div className="ibox-title">
                     <h5>耳号</h5>
                   </div>
                   <div className="ibox-content">
-                    <h4 className="no-margins">457</h4>
+                    <h4 className="no-margins">{this.state.pigdata.earId}</h4>
                   </div>
                 </div>
               </Col>
@@ -117,7 +160,7 @@ export default class Page4 extends Component {
                     <h5>品种</h5>
                   </div>
                   <div className="ibox-content">
-                    <h4 className="no-margins">789</h4>
+                    <h4 className="no-margins">{this.state.pigdata.breed}</h4>
                   </div>
                 </div>
               </Col>
@@ -129,7 +172,7 @@ export default class Page4 extends Component {
                     <h5>猪舍号</h5>
                   </div>
                   <div className="ibox-content">
-                    <h4 className="no-margins">25</h4>
+                    <h4 className="no-margins" >{this.state.pigdata.pigstyId}</h4>
                   </div>
                 </div>
               </Col>
@@ -139,7 +182,7 @@ export default class Page4 extends Component {
                     <h5>栋栏</h5>
                   </div>
                   <div className="ibox-content">
-                    <h4 className="no-margins">1234</h4>
+                    <h4 className="no-margins">{this.state.pigdata.column}</h4>
                   </div>
                 </div>
               </Col>
@@ -149,19 +192,19 @@ export default class Page4 extends Component {
                     <h5>圈号</h5>
                   </div>
                   <div className="ibox-content">
-                    <h4 className="no-margins">789</h4>
+                    <h4 className="no-margins">{this.state.pigdata.ringNumber}</h4>
                   </div>
                 </div>
               </Col>
             </Row>
             <Row>
-              <Col xxs="7" s="7" l="7" style={{ marginRight: '5%' }}>
+              <Col xxs="8" s="8" l="8" style={{ marginRight: '3%' }}>
                 <div className="ibox float-e-margins">
                   <div className="ibox-title">
                     <h5>出生日期</h5>
                   </div>
                   <div className="ibox-content">
-                    <h4 className="no-margins">25-732-93</h4>
+                    <h4 className="no-margins" >{this.getLocalTime(this.state.pigdata.earId)}</h4>
                   </div>
                 </div>
               </Col>
@@ -171,7 +214,7 @@ export default class Page4 extends Component {
                     <h5>备注</h5>
                   </div>
                   <div className="ibox-content">
-                    <h4 className="no-margins">无</h4>
+                    <h4 className="no-margins">{this.state.pigdata.remarks == '' ? ('无') : (this.state.pigdata.remarks)}</h4>
                   </div>
                 </div>
               </Col>
@@ -181,7 +224,7 @@ export default class Page4 extends Component {
                     <h5>饲养员</h5>
                   </div>
                   <div className="ibox-content">
-                    <h4 className="no-margins">789</h4>
+                    <h4 className="no-margins">张三</h4>
                   </div>
                 </div>
               </Col>
@@ -192,16 +235,16 @@ export default class Page4 extends Component {
               </div>
               <Col className="ibox-content">
                 <p><i className="fa fa-star" /> 养殖场名称：
-                  <a>dsc</a>
+                  <a>{this.state.pigfarmdata.name}</a>
                 </p>
                 <p><i className="fa fa-home" /> 养殖场地址：
-                  <a >很多公司从</a>
+                  <a >{this.state.pigfarmdata.address}</a>
                 </p>
                 <p><i className="fa fa-font" /> 养殖场ID：
-                  <a className="">效果不好的元素额哎</a>
+                  <a className="">{this.state.pigfarmdata.pigfarmId}</a>
                 </p>
                 <p><i className="fa fa-user" /> 饲养员ID：
-                  <a className="">37</a>
+                  <a className="">{this.state.pigfarmdata.personId}</a>
                 </p>
               </Col>
             </Col>
@@ -222,50 +265,12 @@ export default class Page4 extends Component {
                            fontSize: '11pt',
                          }}
               >
-                <i className="fa fa-chevron-down" onClick={this.pigstyshow} />
+                <i className="fa fa-chevron-down" onClick={this.pigstyshow} style={{ position: 'absolute', right: '10px' }} />
                 <Pigsty value={this.state.data} />
               </TimelineEvent>
               <TimelineEvent
                 key="2"
-                title="初始化传感器"
-                icon={<i className="fa fa-briefcase" />}
-                iconColor="#0D3799"
-                container="card"
-                className="timeline-event"
-                titleStyle={{ fontWeight: '400' }}
-                style={{ width: '80%' }}
-                cardHeaderStyle={{
-                           backgroundColor: '#6283D0',
-                           fontSize: '11pt',
-                         }}
-                contentStyle={{
-                           backgroundColor: 'transparent',
-                         }}
-              >
-                <span>时间:{this.state.pigstytime}</span>
-              </TimelineEvent>
-              <TimelineEvent
-                key="3"
-                title="添加公猪"
-                icon={<i className="fa fa-briefcase" />}
-                iconColor="#0D3799"
-                container="card"
-                className="timeline-event"
-                titleStyle={{ fontWeight: '400' }}
-                style={{ width: '80%' }}
-                cardHeaderStyle={{
-                           backgroundColor: '#6283D0',
-                           fontSize: '11pt',
-                         }}
-                contentStyle={{
-                           backgroundColor: 'transparent',
-                         }}
-              >
-                <Pig />
-              </TimelineEvent>
-              <TimelineEvent
-                key="4"
-                title="初始化传感器"
+                title="初始化猪舍传感器"
                 icon={<i className="fa fa-briefcase" />}
                 iconColor="#0D3799"
                 container="card"
@@ -283,8 +288,28 @@ export default class Page4 extends Component {
                 <span>时间: {this.state.pigtime}</span>
               </TimelineEvent>
               <TimelineEvent
-                key="5"
-                title="健康信息"
+                key="3"
+                title={`${this.getLocalTime(this.state.pigdata.earId)} 添加公猪`}
+                icon={<i className="fa fa-briefcase" />}
+                iconColor="#0D3799"
+                container="card"
+                className="timeline-event"
+                titleStyle={{ fontWeight: '400' }}
+                style={{ width: '80%', height: this.state.pigheight, overflow: 'hidden' }}
+                cardHeaderStyle={{
+                           backgroundColor: '#6283D0',
+                           fontSize: '11pt',
+                         }}
+                contentStyle={{
+                           backgroundColor: 'transparent',
+                         }}
+              >
+                <i className="fa fa-chevron-down" onClick={this.pigshow} style={{ position: 'absolute', right: '10px' }} />
+                <Pig value={this.state.pigdata} />
+              </TimelineEvent>
+              <TimelineEvent
+                key="4"
+                title={`${this.state.pigsensordata.time} 初始化猪舍传感器`}
                 icon={<i className="fa fa-briefcase" />}
                 iconColor="#0D3799"
                 container="card"
@@ -299,7 +324,46 @@ export default class Page4 extends Component {
                            backgroundColor: 'transparent',
                          }}
               >
-                <a onClick={this.health}>健康信息</a>
+                <Row style={styles.formItem}>
+                  <Col xxs="6" s="2" l="3" style={styles.formLabel}>
+                    编号：
+                  </Col>
+                  <Col s="6" l="5">
+                    {this.state.pigsensordata.id}
+                  </Col>
+                  <Col xxs="6" s="2" l="3" style={styles.formLabel}>
+                    类型：
+                  </Col>
+                  <Col s="6" l="5">
+                    {this.state.pigsensordata.type}
+                  </Col>
+                  <Col xxs="6" s="2" l="3" style={styles.formLabel}>
+                    时间：
+                  </Col>
+                  <Col s="6" l="5">
+                    {this.state.pigsensordata.time}
+                  </Col>
+                </Row>
+              </TimelineEvent>
+              <TimelineEvent
+                key="5"
+                title="健康信息"
+                icon={<i className="fa fa-briefcase" />}
+                iconColor="#0D3799"
+                container="card"
+                className="timeline-event"
+                titleStyle={{ fontWeight: '400' }}
+                style={{ width: '80%', height: this.state.healthheight, overflow: 'hidden' }}
+                cardHeaderStyle={{
+                           backgroundColor: '#6283D0',
+                           fontSize: '11pt',
+                         }}
+                contentStyle={{
+                           backgroundColor: 'transparent',
+                         }}
+              >
+                <i className="fa fa-chevron-down" onClick={this.health} style={{ position: 'absolute', right: '10px' }} >最近5分钟健康信息</i>
+                <Health id={this.state.id} />
               </TimelineEvent>
               <TimelineEvent
                 key="6"
@@ -309,7 +373,7 @@ export default class Page4 extends Component {
                 container="card"
                 className="timeline-event"
                 titleStyle={{ fontWeight: '400' }}
-                style={{ width: '80%' }}
+                style={{ width: '80%', height: this.state.environmentalheight, overflow: 'hidden' }}
                 cardHeaderStyle={{
                   backgroundColor: '#6283D0',
                   fontSize: '11pt',
@@ -318,7 +382,8 @@ export default class Page4 extends Component {
                   backgroundColor: 'transparent',
                 }}
               >
-                <a>环境信息</a>
+                <i className="fa fa-chevron-down" onClick={this.environmental} style={{ position: 'absolute', right: '10px' }} >最近5分钟环境信息</i>
+                <Environmental pigstyId={this.state.pigstyId} />
               </TimelineEvent>
             </Timeline>
           </Col>
@@ -327,3 +392,17 @@ export default class Page4 extends Component {
     );
   }
 }
+
+const styles = {
+  container: {
+    paddingBottom: 0,
+  },
+  formItem: {
+    height: '28px',
+    lineHeight: '28px',
+    marginBottom: '25px',
+  },
+  formLabel: {
+    textAlign: 'right',
+  },
+};
