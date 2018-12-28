@@ -218,7 +218,7 @@ export default class Page4 extends Component {
                   </div>
                 </div>
               </Col>
-              <Col xxs="7" s="7" l="7">
+              <Col xxs="8" s="8" l="8">
                 <div className="ibox float-e-margins">
                   <div className="ibox-title">
                     <h5>品种</h5>
@@ -230,7 +230,7 @@ export default class Page4 extends Component {
               </Col>
             </Row>
             <Row>
-              <Col xxs="7" s="7" l="7" style={{ marginRight: '5%' }}>
+              <Col xxs="8" s="8" l="8" style={{ marginRight: '3%' }}>
                 <div className="ibox float-e-margins">
                   <div className="ibox-title">
                     <h5>猪舍号</h5>
@@ -240,7 +240,7 @@ export default class Page4 extends Component {
                   </div>
                 </div>
               </Col>
-              <Col xxs="7" s="7" l="7" style={{ marginRight: '5%' }}>
+              <Col xxs="8" s="8" l="8" style={{ marginRight: '3%' }}>
                 <div className="ibox float-e-margins">
                   <div className="ibox-title">
                     <h5>栋栏</h5>
@@ -250,7 +250,7 @@ export default class Page4 extends Component {
                   </div>
                 </div>
               </Col>
-              <Col xxs="7" s="7" l="7">
+              <Col xxs="8" s="8" l="8">
                 <div className="ibox float-e-margins">
                   <div className="ibox-title">
                     <h5>圈号</h5>
@@ -272,7 +272,7 @@ export default class Page4 extends Component {
                   </div>
                 </div>
               </Col>
-              <Col xxs="7" s="7" l="7" style={{ marginRight: '5%' }}>
+              <Col xxs="8" s="8" l="8" style={{ marginRight: '3%' }}>
                 <div className="ibox float-e-margins">
                   <div className="ibox-title">
                     <h5>备注</h5>
@@ -282,7 +282,7 @@ export default class Page4 extends Component {
                   </div>
                 </div>
               </Col>
-              <Col xxs="7" s="7" l="7">
+              <Col xxs="8" s="8" l="8">
                 <div className="ibox float-e-margins">
                   <div className="ibox-title">
                     <h5>饲养员</h5>
