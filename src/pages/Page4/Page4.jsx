@@ -51,8 +51,9 @@ export default class Page4 extends Component {
       const pigsensorreult = await pigsensor(athis.state.id);
       const pigstysensorresult = await pigstysensor(pigresult.pigstyId);
       const showEnvironmentalresult = await showEnvironmentalMin(pigresult.pigstyId);
-      const result = await pigsty(pigresult.pigstyId);
+      const result = await pigsty(athis.state.id);
       const showHealthresult = await showHealthMin(athis.state.id);
+      console.log(123,pigstysensorresult)
       athis.setState({
         data: result,
         pigstyId: pigresult.pigstyId,
