@@ -19,7 +19,7 @@ export default class CreateActivityForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pigfarm: '北京世纪诚链养殖场',
+      pigfarm: '*******养殖场',
       pigstyid: '',
       column: '',
       ringNumber: '',

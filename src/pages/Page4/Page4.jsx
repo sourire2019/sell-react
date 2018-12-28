@@ -22,8 +22,6 @@ export default class Page4 extends Component {
     super(props);
     this.state = {
       id: cookie.load('id') == undefined ? ('') : (cookie.load('id')),
-      pigstytime: '2018-12-26 12:48:34',
-      pigtime: '2018-12-26 12:58:21',
       data: undefined,
       pigdata: {},
       pigfarmdata: {},
@@ -36,8 +34,8 @@ export default class Page4 extends Component {
       pigheight: '100px',
       healthheight: '100px',
       environmentalheight: '100px',
-      healthtime: '',
-      environmentaltime: '',
+      healthtime:`${new Date().toLocaleDateString().replace(/\//g, '-')} ${new Date().toTimeString().substr(0, 8)}`,
+      environmentaltime: `${new Date().toLocaleDateString().replace(/\//g, '-')} ${new Date().toTimeString().substr(0, 8)}`,
       pigstytime: '',
     };
     this.health = this.health.bind(this);
@@ -89,13 +87,33 @@ export default class Page4 extends Component {
     }
   }
   syncData = async (id) => {
+    const athis = this;
     const result = await showEnvironmentalMin(id);
+    if (result.length > 0) {
+      athis.setState({
+        environmentaltime: result[(result.length - 1)].datetime,
+      });
+    } else {
+      athis.setState({
+        environmentaltime: `${new Date().toLocaleDateString().replace(/\//g, '-')} ${new Date().toTimeString().substr(0, 8)}`,
+      });
+    }
     this.setState({
       showEnvironmentaldata: result,
     });
   }
   syncHealthData = async (id) => {
+    const athis = this;
     const showHealth = await showHealthMin(id);
+    if (showHealth.length > 0) {
+      athis.setState({
+        healthtime: showHealth[(showHealth.length - 1)].datetime,
+      });
+    } else {
+      athis.setState({
+        healthtime: `${new Date().toLocaleDateString().replace(/\//g, '-')} ${new Date().toTimeString().substr(0, 8)}`,
+      });
+    }
     this.setState({
       showHealthdata: showHealth,
     });
@@ -298,7 +316,7 @@ export default class Page4 extends Component {
             <Timeline style={{ margin: '0 auto', float: 'right' }}>
               <TimelineEvent
                 key="1"
-                title={`${this.state.pigtime} 创建猪舍`}
+                title={`${this.state.pigstytime} 创建猪舍`}
                 icon={<i className="fa fa-briefcase" />}
                 iconColor="#0D3799"
                 container="card"
