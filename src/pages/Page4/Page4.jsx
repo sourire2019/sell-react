@@ -34,7 +34,7 @@ export default class Page4 extends Component {
       pigheight: '100px',
       healthheight: '100px',
       environmentalheight: '100px',
-      healthtime:`${new Date().toLocaleDateString().replace(/\//g, '-')} ${new Date().toTimeString().substr(0, 8)}`,
+      healthtime: `${new Date().toLocaleDateString().replace(/\//g, '-')} ${new Date().toTimeString().substr(0, 8)}`,
       environmentaltime: `${new Date().toLocaleDateString().replace(/\//g, '-')} ${new Date().toTimeString().substr(0, 8)}`,
       pigstytime: '',
     };
@@ -53,7 +53,7 @@ export default class Page4 extends Component {
       const showEnvironmentalresult = await showEnvironmentalMin(pigresult.pigstyId);
       const result = await pigsty(athis.state.id);
       const showHealthresult = await showHealthMin(athis.state.id);
-      console.log(123,pigstysensorresult)
+      console.log(123, pigstysensorresult);
       athis.setState({
         data: result,
         pigstyId: pigresult.pigstyId,
@@ -186,7 +186,7 @@ export default class Page4 extends Component {
       <div className="page4-page">
         <FilterWithSearch />
         <Row>
-          <Col xxs="8" s="8" l="8">
+          <Col xxs="7" s="7" l="7">
             <Col className="ibox float-e-margins " xxs="24" s="24" l="24">
               <div className="ibox-title">
                 <img
@@ -198,96 +198,96 @@ export default class Page4 extends Component {
               </div>
             </Col>
             <Row>
-              <Col xxs="8" s="8" l="8" style={{ marginRight: '3%' }}>
+              <Col xxs="7" s="7" l="7" style={{ marginRight: '5%' }}>
                 <div className="ibox float-e-margins">
                   <div className="ibox-title">
                     <h5>链码</h5>
                   </div>
-                  <div className="ibox-content">
+                  <div className="ibox-content" style={{ padding: '15px 0px', textAlign: 'center' }}>
                     <h4 className="no-margins">{this.state.pigdata.erc721ID}</h4>
                   </div>
                 </div>
               </Col>
-              <Col xxs="8" s="8" l="8" style={{ marginRight: '3%' }}>
+              <Col xxs="7" s="7" l="7" style={{ marginRight: '5%' }}>
                 <div className="ibox float-e-margins">
                   <div className="ibox-title">
                     <h5>耳号</h5>
                   </div>
-                  <div className="ibox-content">
+                  <div className="ibox-content" style={{ padding: '15px 0px', textAlign: 'center' }}>
                     <h4 className="no-margins">{this.state.pigdata.earId}</h4>
                   </div>
                 </div>
               </Col>
-              <Col xxs="8" s="8" l="8">
+              <Col xxs="7" s="7" l="7" >
                 <div className="ibox float-e-margins">
                   <div className="ibox-title">
                     <h5>品种</h5>
                   </div>
-                  <div className="ibox-content">
+                  <div className="ibox-content" style={{ padding: '15px 0px', textAlign: 'center' }}>
                     <h4 className="no-margins">{this.state.pigdata.breed}</h4>
                   </div>
                 </div>
               </Col>
             </Row>
             <Row>
-              <Col xxs="8" s="8" l="8" style={{ marginRight: '3%' }}>
+              <Col xxs="7" s="7" l="7" style={{ marginRight: '5%' }}>
                 <div className="ibox float-e-margins">
                   <div className="ibox-title">
                     <h5>猪舍号</h5>
                   </div>
-                  <div className="ibox-content">
+                  <div className="ibox-content" style={{ padding: '15px 0px', textAlign: 'center' }}>
                     <h4 className="no-margins" >{this.state.pigdata.pigstyId}</h4>
                   </div>
                 </div>
               </Col>
-              <Col xxs="8" s="8" l="8" style={{ marginRight: '3%' }}>
+              <Col xxs="7" s="7" l="7" style={{ marginRight: '5%' }}>
                 <div className="ibox float-e-margins">
                   <div className="ibox-title">
                     <h5>栋栏</h5>
                   </div>
-                  <div className="ibox-content">
+                  <div className="ibox-content" style={{ padding: '15px 0px', textAlign: 'center' }}>
                     <h4 className="no-margins">{this.state.pigdata.column}</h4>
                   </div>
                 </div>
               </Col>
-              <Col xxs="8" s="8" l="8">
+              <Col xxs="7" s="7" l="7" >
                 <div className="ibox float-e-margins">
                   <div className="ibox-title">
                     <h5>圈号</h5>
                   </div>
-                  <div className="ibox-content">
+                  <div className="ibox-content" style={{ padding: '15px 0px', textAlign: 'center' }}>
                     <h4 className="no-margins">{this.state.pigdata.ringNumber}</h4>
                   </div>
                 </div>
               </Col>
             </Row>
             <Row>
-              <Col xxs="8" s="8" l="8" style={{ marginRight: '3%' }}>
+              <Col xxs="7" s="7" l="7" style={{ marginRight: '5%' }}>
                 <div className="ibox float-e-margins">
                   <div className="ibox-title">
                     <h5>出生日期</h5>
                   </div>
-                  <div className="ibox-content">
+                  <div className="ibox-content" style={{ padding: '15px 0px', textAlign: 'center' }}>
                     <h4 className="no-margins" >{this.getLocalTime(this.state.pigdata.earId)}</h4>
                   </div>
                 </div>
               </Col>
-              <Col xxs="8" s="8" l="8" style={{ marginRight: '3%' }}>
+              <Col xxs="7" s="7" l="7" style={{ marginRight: '5%' }}>
                 <div className="ibox float-e-margins">
                   <div className="ibox-title">
                     <h5>备注</h5>
                   </div>
-                  <div className="ibox-content">
+                  <div className="ibox-content" style={{ padding: '15px 0px', textAlign: 'center' }}>
                     <h4 className="no-margins">{this.state.pigdata.remarks == '' ? ('无') : (this.state.pigdata.remarks)}</h4>
                   </div>
                 </div>
               </Col>
-              <Col xxs="8" s="8" l="8">
+              <Col xxs="7" s="7" l="7" >
                 <div className="ibox float-e-margins">
                   <div className="ibox-title">
                     <h5>饲养员</h5>
                   </div>
-                  <div className="ibox-content">
+                  <div className="ibox-content" style={{ padding: '15px 0px', textAlign: 'center' }}>
                     <h4 className="no-margins">张三</h4>
                   </div>
                 </div>
