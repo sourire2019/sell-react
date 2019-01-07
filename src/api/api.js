@@ -1,8 +1,16 @@
+import cookie from 'react-cookies';
 import { get, post } from './request.js';
 
 // 猪详情
 const showDetail = (id) => {
-  return get(`http://172.16.1.170:8080/getPigInfo/${id}`);
+  return get(`http://172.16.1.170:8080/getPigInfo/${id}`).then((resp)=>{
+    if (resp == null){
+      cookie.remove("id");
+      window.location.reload()
+    } else {
+      return resp;
+    }
+  });
 };
 
 // 健康信息
