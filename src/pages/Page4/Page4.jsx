@@ -53,14 +53,22 @@ export default class Page4 extends Component {
       const showEnvironmentalresult = await showEnvironmentalMin(pigresult.pigstyId);
       const result = await pigsty(athis.state.id);
       const showHealthresult = await showHealthMin(athis.state.id);
-      console.log(123, pigstysensorresult);
+      if (pigstysensorresult != null){
+        athis.setState({
+          pigstysensordata: pigstysensorresult,
+        });
+      }
+      if (pigstysensorresult != null){
+        athis.setState({
+          pigsensordata: pigsensorreult,
+        });
+      }
+
       athis.setState({
         data: result,
         pigstyId: pigresult.pigstyId,
         pigdata: pigresult,
         pigfarmdata: pigfarmresult,
-        pigsensordata: pigsensorreult,
-        pigstysensordata: pigstysensorresult,
         showEnvironmentaldata: showEnvironmentalresult,
         showHealthdata: showHealthresult,
         pigstytime: result.time,
@@ -334,7 +342,7 @@ export default class Page4 extends Component {
               </TimelineEvent>
               <TimelineEvent
                 key="2"
-                title={`${this.state.pigstysensordata.time} 初始化猪舍传感器`}
+                title={`${this.state.pigstysensordata.time ==undefined?(""):(this.state.pigstysensordata.time)} 初始化猪舍传感器`}
                 icon={<i className="fa fa-briefcase" />}
                 iconColor="#0D3799"
                 container="card"
@@ -392,7 +400,7 @@ export default class Page4 extends Component {
               </TimelineEvent>
               <TimelineEvent
                 key="4"
-                title={`${this.state.pigsensordata.time} 初始化公猪传感器`}
+                title={`${this.state.pigsensordata.time ==undefined?(""):(this.state.pigsensordata.time)} 初始化公猪传感器`}
                 icon={<i className="fa fa-briefcase" />}
                 iconColor="#0D3799"
                 container="card"
